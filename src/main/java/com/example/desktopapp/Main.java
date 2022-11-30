@@ -1,0 +1,28 @@
+package com.example.desktopapp;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.List;
+
+public class Main extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("app.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+        stage.setTitle("Desktop App");
+        stage.setScene(scene);
+        stage.show();
+    }
+    public static void main(String[] args) {
+        launch();
+        DbFunctions db= new DbFunctions();
+        Connection conn= db.connect_db("DBstock","postgres","1234");
+        List<String> queryList=db.getAllQuery();
+        db.createAllTable(conn,queryList);
+    }
+}
