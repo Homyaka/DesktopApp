@@ -24,5 +24,6 @@ public class Main extends Application {
         Connection conn= db.connect_db("DBstock","postgres","1234");
         List<String> queryList=db.getAllQuery();
         db.createAllTable(conn,queryList);
+        //test
     }
 }
