@@ -36,6 +36,17 @@ public class DbFunctions {
              createTable(conn,str);
          }
      }
+     public void createUsersTable(Connection conn){
+       String query="Create table users(id_user SERIAL,login varchar(255),password varchar(200),first_name varchar(200),last_name varchar(200),job_title varchar(200),rights varchar(200))";
+       Statement statement;
+       try {
+           statement=conn.createStatement();
+           statement.executeUpdate(query);
+           System.out.println("Table Created");
+       }catch (Exception e){
+           System.out.println(e);
+         }
+    }
     /*public List<String> getAllQuery(){
         List<String> queryList=new ArrayList<String>();
         String location="create table location(id_loc SERIAL,name_loc varchar(200),primary key (id_loc))";

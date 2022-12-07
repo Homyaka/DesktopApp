@@ -21,30 +21,23 @@ public class LoginController {
 
     @FXML
     private TextField tf_user;
-
+    public Stage stage=new Stage();
     public void setMainWindow(){
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("../resources/com.example.desktopapp.main.fxml"));
-        System.out.println("OK");
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
+        try {
+            fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Parent root=fxmlLoader.getRoot();
-      try {
+        try {
           stage.setScene(new Scene(root));
           stage.showAndWait();
-      }catch (Exception e){
+        }catch (Exception e){
           System.out.println(e);
-      }
-       // }
-       // else {System.out.println("NOOOO");}
-
+        }
     }
-    public Stage stage=new Stage();
-   /* public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-        stage.setTitle("Desktop App");
-        stage.setScene(scene);
-        stage.show();
-    }*/
+
     @FXML
     void initialize(){
         btn_login.setOnAction(event ->{

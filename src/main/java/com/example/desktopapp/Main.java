@@ -22,7 +22,8 @@ public class Main extends Application {
         launch();
         DbFunctions db= new DbFunctions();
         Connection conn= db.connect_db("DBstock","postgres","1234");
+        //db.createUsersTable(conn);
         //List<String> queryList=db.getAllQuery();
-       // db.createAllTable(conn,queryList);
+        //db.createAllTable(conn,queryList);
     }
 }
