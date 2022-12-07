@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #F0FFF0;" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="com.example.desktopapp.MainController">
+  <tabs>
+      <Tab fx:id="tab_exit" text="User">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FFFAFA;">
+               <children>
+                  <Pane layoutX="14.0" layoutY="14.0" prefHeight="296.0" prefWidth="277.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Имя: ">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="label_name" layoutX="74.0" layoutY="14.0" text="Default">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="62.0" text="Фамилия: ">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="115.0" text="Должность: ">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="166.0" text="Права доступа: ">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="label_lastname" layoutX="107.0" layoutY="62.0" text="Default">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="label_jobtitle" layoutX="126.0" layoutY="115.0" text="Default">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="label_right" layoutX="158.0" layoutY="166.0" text="Default">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+    <Tab fx:id="tab_query" text="Query">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F0FFF0;">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" text="Выберите таблицу" textFill="#46b275">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox layoutX="14.0" layoutY="51.0" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: #008000;" />
+                  <Button layoutX="196.0" layoutY="49.0" mnemonicParsing="false" style="-fx-background-color: #008000;" text="Посмотреть таблицу" textFill="#46b275" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab fx:id="tab_change" text="Change">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #F0FFFF;">
+               <children>
+                  <ChoiceBox layoutX="14.0" layoutY="48.0" prefHeight="26.0" prefWidth="171.0" style="-fx-background-color: #4682B4;" />
+                  <Label layoutX="14.0" layoutY="14.0" text="Выберите таблицу" textFill="STEELBLUE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="201.0" layoutY="46.0" mnemonicParsing="false" style="-fx-background-color: #4682B4;" text="Посмотреть таблицу" textAlignment="CENTER" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
