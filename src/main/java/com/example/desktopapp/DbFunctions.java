@@ -2,50 +2,98 @@ package com.example.desktopapp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 
 public class DbFunctions {
-    public Connection connect_db(String dbname,String user,String pass){
-        Connection conn=null;
+    Connection connection;
+
+    public  DbFunctions(String dbname,String user,String pass){
         try{
          Class.forName("org.postgresql.Driver");
-         conn= DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+dbname,user,pass);
-         if (conn!=null)
+            connection= DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+dbname,user,pass);
+         if (connection!=null)
              System.out.println("Connections Established");
          else
              System.out.println("Connections Failed");
         }catch (Exception e){
             System.out.println(e);
         }
-        return conn;
     }
 
-    public void createTable(Connection conn, String query){
+    public void createTable( String query){
         Statement statement;
         try {
-            statement=conn.createStatement();
+            statement=connection.createStatement();
             statement.executeUpdate(query);
             System.out.println("Table Created");
         }catch (Exception e){
             System.out.println(e);
         }
     }
-     public void createAllTable(Connection conn,List<String> queryList){
+     public void createAllTable(List<String> queryList){
          for (String str:queryList) {
-             createTable(conn,str);
+             createTable(str);
          }
      }
-     public void createUsersTable(Connection conn){
+     public void createUsersTable(){
        String query="Create table users(id_user SERIAL,login varchar(255),password varchar(200),first_name varchar(200),last_name varchar(200),job_title varchar(200),rights varchar(200))";
        Statement statement;
        try {
-           statement=conn.createStatement();
+           statement=connection.createStatement();
            statement.executeUpdate(query);
            System.out.println("Table Created");
        }catch (Exception e){
            System.out.println(e);
          }
+    }
+
+    public ResultSet read_table(String table_name){
+        Statement statement;
+        ResultSet rs=null;
+        try {
+            String query="Select * from "+ table_name;
+            statement=connection.createStatement();
+            rs= statement.executeQuery(query);
+        }catch (Exception e) {
+            System.out.println(e);
+        }
+        return rs;
+    }
+
+    public HashMap<String,String> get_loginpassword_fromBD() {
+        HashMap<String, String> users_data = new HashMap<>() {
+        };
+        ResultSet rs;
+        try {
+            rs = read_table( "users");
+            while (rs.next()) {
+                users_data.put(rs.getString("login"), rs.getString("password"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return users_data;
+    }
+
+    public ArrayList<String> get_user_data(String login){
+        ResultSet rs=read_table("users");
+        ArrayList<String> data= new ArrayList<>();
+        try {
+            while (rs.next()){
+                if(login.equals(rs.getString("login")))
+                {
+                    data.add(rs.getString("first_name"));
+                    data.add(rs.getString("last_name"));
+                    data.add(rs.getString("job_title"));
+                    data.add(rs.getString("rights"));
+                }
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return data;
     }
     /*public List<String> getAllQuery(){
         List<String> queryList=new ArrayList<String>();

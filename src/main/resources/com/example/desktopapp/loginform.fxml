@@ -16,7 +16,7 @@
          <children>
             <TextField fx:id="tf_user" layoutX="101.0" layoutY="69.0" maxWidth="200.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter login" />
             <PasswordField fx:id="tf_pass" layoutX="101.0" layoutY="167.0" maxWidth="200.0" prefHeight="40.0" prefWidth="200.0" promptText="Enter password" />
-            <Button fx:id="btn_login" layoutX="100.0" layoutY="245.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #000080;" text="Login" textFill="LIGHTYELLOW">
+            <Button fx:id="btn_login" layoutX="101.0" layoutY="266.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #000080;" text="Login" textFill="LIGHTYELLOW">
                <font>
                   <Font size="27.0" />
                </font>
@@ -29,6 +29,11 @@
             <Label layoutX="150.0" layoutY="122.0" text="Password">
                <font>
                   <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="error_label" layoutX="47.0" layoutY="221.0" textFill="RED">
+               <font>
+                  <Font size="20.0" />
                </font>
             </Label>
          </children>

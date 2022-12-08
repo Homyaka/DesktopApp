@@ -20,8 +20,7 @@ public class Main extends Application {
     }
     public static void main(String[] args) {
         launch();
-        DbFunctions db= new DbFunctions();
-        Connection conn= db.connect_db("DBstock","postgres","1234");
+        DbFunctions db= new DbFunctions("DBstock","postgres","1234");
         //db.createUsersTable(conn);
         //List<String> queryList=db.getAllQuery();
         //db.createAllTable(conn,queryList);
