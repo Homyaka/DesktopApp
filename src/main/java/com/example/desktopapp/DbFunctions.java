@@ -21,7 +21,6 @@ public class DbFunctions {
             System.out.println(e);
         }
     }
-
     public void createTable( String query){
         Statement statement;
         try {
@@ -37,37 +36,26 @@ public class DbFunctions {
              createTable(str);
          }
      }
-     public void createUsersTable(){
-       String query="Create table users(id_user SERIAL,login varchar(255),password varchar(200),first_name varchar(200),last_name varchar(200),job_title varchar(200),rights varchar(200))";
-       Statement statement;
-       try {
-           statement=connection.createStatement();
-           statement.executeUpdate(query);
-           System.out.println("Table Created");
-       }catch (Exception e){
-           System.out.println(e);
-         }
-    }
 
-    public ResultSet read_table(String table_name){
+    public ResultSet readTable(String table_name){
         Statement statement;
-        ResultSet rs=null;
+        ResultSet resultSet=null;
         try {
             String query="Select * from "+ table_name;
             statement=connection.createStatement();
-            rs= statement.executeQuery(query);
+            resultSet= statement.executeQuery(query);
         }catch (Exception e) {
             System.out.println(e);
         }
-        return rs;
+        return resultSet;
     }
 
-    public HashMap<String,String> get_loginpassword_fromBD() {
+    public HashMap<String,String> getLoginpasswordFromBD() {
         HashMap<String, String> users_data = new HashMap<>() {
         };
         ResultSet rs;
         try {
-            rs = read_table( "users");
+            rs = readTable( "users");
             while (rs.next()) {
                 users_data.put(rs.getString("login"), rs.getString("password"));
             }
@@ -77,8 +65,8 @@ public class DbFunctions {
         return users_data;
     }
 
-    public ArrayList<String> get_user_data(String login){
-        ResultSet rs=read_table("users");
+    public ArrayList<String> getUserData(String login){
+        ResultSet rs=readTable("users");
         ArrayList<String> data= new ArrayList<>();
         try {
             while (rs.next()){
@@ -95,8 +83,8 @@ public class DbFunctions {
         }
         return data;
     }
-    /*public List<String> getAllQuery(){
-        List<String> queryList=new ArrayList<String>();
+    public ArrayList<String> getAllQuery(){
+        ArrayList<String> queryList=new ArrayList<String>();
         String location="create table location(id_loc SERIAL,name_loc varchar(200),primary key (id_loc))";
         String route="create table route(id_route SERIAL,id_startloc SERIAL,id_endloc SERIAL,primary key(id_route),foreign key(id_startloc) REFERENCES  location (id_loc),foreign key(id_endloc) REFERENCES  location (id_loc))";
         String boxcar="create table boxcar(id_model SERIAL,model_name varchar(200),car_cap real,volume real,year_manufacture integer, st_ser_life integer, primary key(id_model))";
@@ -107,6 +95,7 @@ public class DbFunctions {
         String carriage="create table carriage(id_carr SERIAL,wagon_type varchar(200),id_model SERIAL,full_empty boolean,material varchar(200),on_way boolean,id_pos SERIAL,on_repair boolean," +
                 "foreign key(id_pos) REFERENCES departure(id_dep),foreign key(id_pos) REFERENCES location (id_loc)," +
                 "foreign key(id_model) REFERENCES boxcar(id_model),foreign key(id_model) REFERENCES gondola(id_model),foreign key(id_model) REFERENCES tankwagon(id_model),foreign key(id_model) REFERENCES hopper(id_model))";
+        String users="Create table users(id_user SERIAL,login varchar(255),password varchar(200),first_name varchar(200),last_name varchar(200),job_title varchar(200),rights varchar(200))";
         queryList.add(location);
         queryList.add(route);
         queryList.add(boxcar);
@@ -115,8 +104,9 @@ public class DbFunctions {
         queryList.add(hopper);
         queryList.add(departure);
         queryList.add(carriage);
+        queryList.add(users);
         return queryList;
-    }*/
+    }
 
 
 }

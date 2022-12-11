@@ -7,5 +7,6 @@ module com.example.desktopapp {
     requires org.kordamp.bootstrapfx.core;
 
     opens com.example.desktopapp to javafx.fxml;
+    opens com.example.desktopapp.classesForTables;
     exports com.example.desktopapp;
 }

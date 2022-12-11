@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -13,7 +12,7 @@
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="980.0" prefWidth="1820.0" style="-fx-background-color: #F0FFF0;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.desktopapp.MainController">
   <tabs>
-      <Tab fx:id="tab_exit" text="User">
+      <Tab fx:id="tab_user" text="User">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FFFAFA;">
                <children>
@@ -75,18 +74,11 @@
                      </font>
                   </Label>
                   <ChoiceBox fx:id="cb_choicetables_query" layoutX="14.0" layoutY="51.0" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: #008000;" />
-                  <Button layoutX="196.0" layoutY="49.0" mnemonicParsing="false" style="-fx-background-color: #008000;" text="Посмотреть таблицу" textFill="HONEYDEW" />
-                  <TableView fx:id="table_query" layoutX="611.0" layoutY="49.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="383.0" prefWidth="447.0" style="-fx-background-color: #F5FFFA;">
+                  <Button layoutX="200.0" layoutY="52.0" mnemonicParsing="false" style="-fx-background-color: #008000;" text="Посмотреть таблицу" textFill="HONEYDEW" />
+                  <TableView fx:id="table_query" layoutX="611.0" layoutY="49.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="250.0" prefWidth="660.0" style="-fx-background-color: #F5FFFA;">
                     <columns>
-                      <TableColumn fx:id="query_column1" prefWidth="75.0" text="1" />
-                      <TableColumn fx:id="query_column2" prefWidth="75.0" text="2" />
-                        <TableColumn fx:id="query_column3" prefWidth="75.0" text="3" />
-                        <TableColumn fx:id="query_column4" prefWidth="75.0" text="4" />
-                        <TableColumn fx:id="query_column5" prefWidth="75.0" text="5" />
-                        <TableColumn fx:id="query_column6" prefWidth="75.0" text="6" />
                     </columns>
                   </TableView>
-                  <Button fx:id="btn_hidetable" layoutX="496.0" layoutY="49.0" mnemonicParsing="false" style="-fx-background-color: #008000;" text="Скрыть таблицу" textFill="HONEYDEW" />
                </children></AnchorPane>
       </content>
     </Tab>

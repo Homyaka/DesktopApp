@@ -29,7 +29,7 @@ public class LoginController {
     public Stage stage=new Stage();
     public void setMainWindow(){
         btn_login.getScene().getWindow().hide();
-        ArrayList<String> usersData= db.get_user_data(tf_user.getText());
+        ArrayList<String> usersData= db.getUserData(tf_user.getText());
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
         try {
             fxmlLoader.load();
@@ -37,7 +37,7 @@ public class LoginController {
             throw new RuntimeException(e);
         }
         MainController mc= fxmlLoader.getController();
-        mc.initData(usersData);
+      //  mc.initData(usersData);
         Parent root=fxmlLoader.getRoot();
         try {
           stage.setScene(new Scene(root));
@@ -48,7 +48,7 @@ public class LoginController {
     }
     public boolean checkLoginIn(String login,String password){
         if (login.length()!=0 && password.length()!=0){
-            HashMap<String,String> users_data= db.get_loginpassword_fromBD();
+            HashMap<String,String> users_data= db.getLoginpasswordFromBD();
             if(!users_data.isEmpty())
                 if (password.equals(users_data.get(login)))
                     return true;
