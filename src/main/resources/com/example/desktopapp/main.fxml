@@ -74,8 +74,8 @@
                      </font>
                   </Label>
                   <ChoiceBox fx:id="cb_choicetables_query" layoutX="14.0" layoutY="51.0" prefHeight="26.0" prefWidth="165.0" style="-fx-background-color: #008000;" />
-                  <Button layoutX="200.0" layoutY="52.0" mnemonicParsing="false" style="-fx-background-color: #008000;" text="Посмотреть таблицу" textFill="HONEYDEW" />
-                  <TableView fx:id="table_query" layoutX="611.0" layoutY="49.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="250.0" prefWidth="660.0" style="-fx-background-color: #F5FFFA;">
+                  <Button fx:id="btn_checktables_query" layoutX="200.0" layoutY="52.0" mnemonicParsing="false" style="-fx-background-color: #008000;" text="Посмотреть таблицу" textFill="HONEYDEW" />
+                  <TableView fx:id="table_query" layoutX="1050.0" layoutY="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="250.0" prefWidth="660.0" style="-fx-background-color: #F5FFFA;">
                     <columns>
                     </columns>
                   </TableView>

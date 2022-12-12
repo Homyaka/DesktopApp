@@ -51,13 +51,12 @@ public class DbFunctions {
     }
 
     public HashMap<String,String> getLoginpasswordFromBD() {
-        HashMap<String, String> users_data = new HashMap<>() {
-        };
-        ResultSet rs;
+        HashMap<String, String> users_data = new HashMap<>();
+        ResultSet resultSet;
         try {
-            rs = readTable( "users");
-            while (rs.next()) {
-                users_data.put(rs.getString("login"), rs.getString("password"));
+            resultSet = readTable( "users");
+            while (resultSet.next()) {
+                users_data.put(resultSet.getString("login"), resultSet.getString("password"));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -92,9 +91,9 @@ public class DbFunctions {
         String tankwagon="create table tankwagon(id_model SERIAL,model_name varchar(200),car_cap real,volume real,year_manufacture integer, st_ser_life integer, model_special varchar(200),primary key(id_model))";
         String hopper="create table hopper(id_model SERIAL,model_name varchar(200),car_cap real,volume real,load_hatches integer,unload_hatches integer,year_manufacture integer,st_ser_life integer, model_special varchar(200),primary key(id_model))";
         String departure="create table departure(id_dep SERIAL,datetime_start TIMESTAMP,travel_time interval,id_route SERIAL,car_count integer, primary key(id_dep),foreign key(id_route) REFERENCES route(id_route))";
-        String carriage="create table carriage(id_carr SERIAL,wagon_type varchar(200),id_model SERIAL,full_empty boolean,material varchar(200),on_way boolean,id_pos SERIAL,on_repair boolean," +
-                "foreign key(id_pos) REFERENCES departure(id_dep),foreign key(id_pos) REFERENCES location (id_loc)," +
-                "foreign key(id_model) REFERENCES boxcar(id_model),foreign key(id_model) REFERENCES gondola(id_model),foreign key(id_model) REFERENCES tankwagon(id_model),foreign key(id_model) REFERENCES hopper(id_model))";
+        String carriage="create table carriage(id_carr SERIAL,wagon_type varchar(200),id_model integer,full_empty boolean,material varchar(200),on_way boolean,id_pos integer,on_repair boolean," +
+                "foreign key(id_pos) REFERENCES departure(id_dep))";
+                //"foreign key(id_model) REFERENCES boxcar(id_model),foreign key(id_model) REFERENCES gondola(id_model),foreign key(id_model) REFERENCES tankwagon(id_model),foreign key(id_model) REFERENCES hopper(id_model))";
         String users="Create table users(id_user SERIAL,login varchar(255),password varchar(200),first_name varchar(200),last_name varchar(200),job_title varchar(200),rights varchar(200))";
         queryList.add(location);
         queryList.add(route);
