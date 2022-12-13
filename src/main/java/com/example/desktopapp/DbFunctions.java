@@ -36,6 +36,15 @@ public class DbFunctions {
              createTable(str);
          }
      }
+     public ResultSet getQuery(String query){
+         Statement statement;
+         ResultSet resultSet=null;
+         try {
+             statement=connection.createStatement();
+             resultSet= statement.executeQuery(query);
+         }catch (Exception e){ System.out.println(e);}
+         return resultSet;
+     }
 
     public ResultSet readTable(String table_name){
         Statement statement;
