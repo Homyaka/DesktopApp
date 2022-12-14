@@ -9,14 +9,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class MainController {
 
@@ -35,10 +32,10 @@ public class MainController {
     private ChoiceBox<String> cb_choicetables_query;
 
     @FXML
-    private ChoiceBox<?> cb_add_row;
+    private ChoiceBox<String> cb_add_row;
 
     @FXML
-    private ComboBox<?> cb_remove_row;
+    private ComboBox<String> cb_remove_row;
     @FXML
     private Label add_status;
     @FXML
@@ -48,7 +45,7 @@ public class MainController {
     private TextField tf_add_row;
 
     @FXML
-    private TextField tb_remove_row;
+    private TextField tf_remove_row;
 
     @FXML
     private Button btn_exit_system;
@@ -100,16 +97,16 @@ public class MainController {
     private TableView<Tables> table_change;
 
     @FXML
-    private TextField tb_city;
+    private TextField tf_city;
 
     @FXML
     private TextField tb_dep;
 
     @FXML
-    private TextField tb_route;
+    private TextField tf_route;
 
     @FXML
-    private TextField tb_volume;
+    private TextField tf_volume;
 
     @FXML
     private ListView<String> list_view;
@@ -139,6 +136,8 @@ public class MainController {
         ObservableList<String> tables = FXCollections.observableArrayList("Крытые вагоны","Открытые вагоны","Вагоны-хопперы","Вагоны-цистерны","Отдельные вагоны","Отправления","Маршруты","Города");
         cb_choicetables_query.setItems(tables);
         cb_choicetables_change.setItems(tables);
+        cb_add_row.setItems(tables);
+        cb_remove_row.setItems(tables);
     }
 
    /* public void initData(ArrayList<String> login){
@@ -483,21 +482,21 @@ public class MainController {
 
     }
     public void queryGetVolume(){
-        String model= tb_volume.getText();
+        String model= tf_volume.getText();
         ObservableList<String> observableList=FXCollections.observableArrayList();
-        ResultSet resultSet = null;
+        ResultSet rsWagon = null;
         ResultSet rsCarriage= db.getQuery("select wagon_type,id_model from carriage where id_carr="+model);
         try {
             if(rsCarriage.next())
-                resultSet=db.getQuery("select * from "+ rsCarriage.getString("wagon_type")+" where id_model="+rsCarriage.getString("id_model"));
-            if(resultSet.next()){
+                rsWagon=db.getQuery("select * from "+ rsCarriage.getString("wagon_type")+" where id_model="+rsCarriage.getString("id_model"));
+            if(rsWagon.next()){
                 observableList.add("Тип вагона: "+ rsCarriage.getString("wagon_type"));
-                observableList.add("Модель вагона: "+resultSet.getString("model_name"));
-                observableList.add("Грузоподъемность вагона: "+ resultSet.getString("car_cap")+" т.");
-                observableList.add("Объем вагона: "+ resultSet.getString("volume")+ " м. куб");
-                additionList(rsCarriage.getString("wagon_type"),observableList,resultSet);
-                observableList.add("Год выпуска: " + resultSet.getString("year_manufacture"));
-                observableList.add("Нормативный срок службы: "+ resultSet.getString("st_ser_life"));
+                observableList.add("Модель вагона: "+rsWagon.getString("model_name"));
+                observableList.add("Грузоподъемность вагона: "+ rsWagon.getString("car_cap")+" т.");
+                observableList.add("Объем вагона: "+ rsWagon.getString("volume")+ " м. куб");
+                additionList(rsCarriage.getString("wagon_type"),observableList,rsWagon);
+                observableList.add("Год выпуска: " + rsWagon.getString("year_manufacture"));
+                observableList.add("Нормативный срок службы: "+ rsWagon.getString("st_ser_life"));
                 }
             list_view.setItems(observableList);
         }catch (Exception e){
@@ -515,7 +514,7 @@ public class MainController {
     }
 
     public void queryCityInRoute() {
-        String route=tb_route.getText();
+        String route=tf_route.getText();
         ObservableList<String> observableList=FXCollections.observableArrayList();
         ResultSet rsRoute=db.getQuery("Select * from route where id_route ="+route);
         try {
@@ -532,7 +531,7 @@ public class MainController {
     }
 
     public void queryCarInCity(){
-        String city=tb_city.getText();
+        String city=tf_city.getText();
         ObservableList<String> observableList=FXCollections.observableArrayList();
         observableList.add("id вагонов: ");
         ResultSet rsRoute= db.getQuery("select id_route from route where id_endloc="+city+" and id_startloc="+city);//41
@@ -559,6 +558,102 @@ public class MainController {
         }catch (Exception e){System.out.println(e);}
         list_view.setItems(observableList);
     }
+
+    public void changeAddRow(){
+        String row= tf_add_row.getText();
+        String tableName=null;
+        int counter=1;
+        ResultSet rsTables=null;
+        switch (cb_add_row.getValue()){
+            case ("Крытые вагоны"):
+                rsTables= db.readTable("boxcar");
+                tableName="boxcar";
+                break;
+            case ("Открытые вагоны"):
+                rsTables= db.readTable("gondola");
+                tableName="gondola";
+                break;
+            case ("Вагоны-хопперы"):
+                rsTables= db.readTable("hopper");
+                tableName="hopper";
+                break;
+            case ("Вагоны-цистерны"):
+                rsTables=db.readTable("tankwagon");
+                tableName="tankwagon";
+                break;
+            case ("Отдельные вагоны"):
+                rsTables=db.readTable("carriage");
+                tableName="carriage";
+                break;
+            case ("Отправления"):
+                rsTables= db.readTable("departure");
+                tableName="departure";
+                break;
+            case ("Маршруты"):
+                rsTables= db.readTable("route");
+                tableName="route";
+                break;
+            case ("Города"):
+                rsTables= db.readTable("location");
+                tableName="location";
+                break;
+        }
+        try {
+            while (rsTables.next()) counter++;
+            boolean flag=db.setQuery("insert into "+tableName+" values ("+counter+", "+tf_add_row.getText()+")");
+            if (flag)
+                add_status.setText("Строка добавлена успешно");
+            else
+                add_status.setText("Не удалось добавить строку, проверьте введенные данные");
+        }catch (Exception e){
+            System.out.println(e);}
+    }
+
+    public void changeDeleteRow(){
+        String id=tf_remove_row.getText();
+        String tableName=null;
+        String idChars=null;
+        switch (cb_remove_row.getValue()) {
+            case ("Крытые вагоны"):
+                tableName = "boxcar";
+                idChars="id_model";
+                break;
+            case ("Открытые вагоны"):
+                tableName = "gondola";
+                idChars="id_model";
+                break;
+            case ("Вагоны-хопперы"):
+                tableName = "hopper";
+                idChars="id_model";
+                break;
+            case ("Вагоны-цистерны"):
+                tableName = "tankwagon";
+                idChars="id_model";
+                break;
+            case ("Отдельные вагоны"):
+                tableName = "carriage";
+                idChars="id_carr";
+                break;
+            case ("Отправления"):
+                tableName = "departure";
+                idChars="id_dep";
+                break;
+            case ("Маршруты"):
+                tableName = "route";
+                idChars="id_route";
+                break;
+            case ("Города"):
+                tableName = "location";
+                idChars="id_loc";
+                break;
+        }
+        boolean flag= db.setQuery("delete from "+tableName+" where "+idChars+"="+id);
+       // System.out.println("delete from "+tableName+" where "+idChars+"="+id);
+        if (flag)
+            remove_status.setText("Строка удалена успешно");
+        else
+            remove_status.setText("Не удалось удалить строку, проверьте введеные данные");
+    }
     @FXML
     void initialize() {
         /*if(!label_right.getText().equals("Default") || !label_right.getText().equals("admin")) {
@@ -571,6 +666,12 @@ public class MainController {
         }*/
        // fillListView();
         addTablesInChoiceBox();
+        btn_add_row.setOnAction(event -> {
+            changeAddRow();
+        });
+        btn_remove_row.setOnAction(event -> {
+            changeDeleteRow();
+        });
         btn_query_carronway.setOnAction(event -> {
             queryCarrOnWay();
         });

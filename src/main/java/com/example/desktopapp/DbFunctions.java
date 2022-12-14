@@ -21,6 +21,17 @@ public class DbFunctions {
             System.out.println(e);
         }
     }
+    public boolean setQuery(String query){
+        Statement statement;
+        try {
+            statement=connection.createStatement();
+            statement.executeUpdate(query);
+            return true;
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+    }
     public void createTable( String query){
         Statement statement;
         try {
