@@ -14,12 +14,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class MainController {
 
     DbFunctions db= new DbFunctions("DBstock","postgres","1234");
     public Stage stage=new Stage();
-    public int counter;
+    public String lastId;
     @FXML
     private Button btn_checktables_change;
 
@@ -33,7 +34,6 @@ public class MainController {
 
     @FXML
     private ChoiceBox<String> cb_add_row;
-
     @FXML
     private ComboBox<String> cb_remove_row;
     @FXML
@@ -55,13 +55,8 @@ public class MainController {
 
     @FXML
     private Button btn_query_route;
-
     @FXML
     private Button btn_query_volume;
-
-    @FXML
-    private Button btn_query_departure;
-
     @FXML
     private Button btn_add_row;
 
@@ -84,24 +79,14 @@ public class MainController {
     private Label label_right;
 
     @FXML
-    private Tab tab_change;
-
-    @FXML
-    private Tab tab_query;
-
-    @FXML
-    private Tab tab_user;
-    @FXML
     private TableView<Tables> table_query;
     @FXML
     private TableView<Tables> table_change;
 
     @FXML
     private TextField tf_city;
-
     @FXML
-    private TextField tb_dep;
-
+    private Tab tab_change;
     @FXML
     private TextField tf_route;
 
@@ -140,12 +125,19 @@ public class MainController {
         cb_remove_row.setItems(tables);
     }
 
-   /* public void initData(ArrayList<String> login){
+   public void initData(ArrayList<String> login){
         label_name.setText(login.get(0));
         label_lastname.setText(login.get(1));
         label_jobtitle.setText(login.get(2));
         label_right.setText(login.get(3));
-    }*/
+        System.out.println(label_right.getText());
+       if(label_right.getText().equals("logist") || label_right.getText().equals("all")) {
+           tab_change.setDisable(false);
+       }
+       else {
+           tab_change.setDisable(true);
+       }
+    }
     public void fillTableView(TableView<Tables> table,ChoiceBox<String> choiceBox){
         try {
             String tables= choiceBox.getValue();
@@ -562,45 +554,57 @@ public class MainController {
     public void changeAddRow(){
         String row= tf_add_row.getText();
         String tableName=null;
-        int counter=1;
+        String lastId=null;
+        String id=null;
         ResultSet rsTables=null;
         switch (cb_add_row.getValue()){
             case ("Крытые вагоны"):
                 rsTables= db.readTable("boxcar");
                 tableName="boxcar";
+                id="id_model";
                 break;
             case ("Открытые вагоны"):
                 rsTables= db.readTable("gondola");
                 tableName="gondola";
+                id="id_model";
                 break;
             case ("Вагоны-хопперы"):
                 rsTables= db.readTable("hopper");
                 tableName="hopper";
+                id="id_model";
                 break;
             case ("Вагоны-цистерны"):
                 rsTables=db.readTable("tankwagon");
                 tableName="tankwagon";
+                id="id_model";
                 break;
             case ("Отдельные вагоны"):
                 rsTables=db.readTable("carriage");
                 tableName="carriage";
+                id="id_carr";
                 break;
             case ("Отправления"):
                 rsTables= db.readTable("departure");
                 tableName="departure";
+                id="id_dep";
                 break;
             case ("Маршруты"):
                 rsTables= db.readTable("route");
                 tableName="route";
+                id="id_route";
                 break;
             case ("Города"):
                 rsTables= db.readTable("location");
                 tableName="location";
+                id="id_loc";
+
                 break;
         }
         try {
-            while (rsTables.next()) counter++;
-            boolean flag=db.setQuery("insert into "+tableName+" values ("+counter+", "+tf_add_row.getText()+")");
+            while (rsTables.next()) lastId=rsTables.getString(id);
+            int idTable = Integer.parseInt(lastId);
+            boolean flag=db.setQuery("insert into "+tableName+" values ("+(idTable+1)+", "+tf_add_row.getText()+")");
+            System.out.println("insert into "+tableName+" values ("+(idTable+1)+", "+tf_add_row.getText()+")");
             if (flag)
                 add_status.setText("Строка добавлена успешно");
             else
@@ -656,15 +660,6 @@ public class MainController {
     }
     @FXML
     void initialize() {
-        /*if(!label_right.getText().equals("Default") || !label_right.getText().equals("admin")) {
-            work_pane.setVisible(false);
-            error_label.setText("Недостаточно прав");
-        }
-        else {
-            work_pane.setVisible(true);
-            error_label.setText("");
-        }*/
-       // fillListView();
         addTablesInChoiceBox();
         btn_add_row.setOnAction(event -> {
             changeAddRow();

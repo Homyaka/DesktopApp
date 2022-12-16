@@ -8,7 +8,7 @@ public class Route extends Tables {
     private SimpleIntegerProperty idEndLocation;
 
     public Route(int idRoute,int idStartLocation,int idEndLocation){
-        super("location");
+        super("route");
         this.idRoute= new SimpleIntegerProperty(idRoute);
         this.idStartLocation= new SimpleIntegerProperty(idStartLocation);
         this.idEndLocation= new SimpleIntegerProperty(idEndLocation);

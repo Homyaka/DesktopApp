@@ -7,8 +7,7 @@ import java.sql.Statement;
 import java.util.*;
 
 public class DbFunctions {
-    Connection connection;
-
+    public Connection connection;
     public  DbFunctions(String dbname,String user,String pass){
         try{
          Class.forName("org.postgresql.Driver");

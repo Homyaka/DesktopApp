@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 public class LoginController {
 
-    DbFunctions db= new DbFunctions("DBstock","postgres","1234");
+    public DbFunctions db= new DbFunctions("DBstock","postgres","1234");
     @FXML
     private Button btn_login;
     @FXML
@@ -37,7 +37,7 @@ public class LoginController {
             throw new RuntimeException(e);
         }
         MainController mc= fxmlLoader.getController();
-      //  mc.initData(usersData);
+        mc.initData(usersData);
         Parent root=fxmlLoader.getRoot();
         try {
           stage.setScene(new Scene(root));
