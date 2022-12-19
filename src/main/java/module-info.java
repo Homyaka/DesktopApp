@@ -5,6 +5,7 @@ module com.example.desktopapp {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
+    requires org.postgresql.jdbc;
 
     opens com.example.desktopapp to javafx.fxml;
     opens com.example.desktopapp.classesForTables;

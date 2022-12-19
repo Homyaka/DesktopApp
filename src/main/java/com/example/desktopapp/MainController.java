@@ -82,7 +82,6 @@ public class MainController {
     private TableView<Tables> table_query;
     @FXML
     private TableView<Tables> table_change;
-
     @FXML
     private TextField tf_city;
     @FXML
@@ -95,7 +94,6 @@ public class MainController {
 
     @FXML
     private ListView<String> list_view;
-
     @FXML
     private Pane work_pane;
     @FXML
@@ -206,7 +204,6 @@ public class MainController {
         table.setPrefWidth(370);
         table.setPrefHeight(170);
     }
-
     public void fillTableGondola(TableView table){
         table.getItems().clear();
         ResultSet resultSet= db.readTable("gondola");
@@ -473,7 +470,7 @@ public class MainController {
         //int idCarriage,String wagonType,int idModel,boolean fullEmpty,String material,boolean onWay,int idPosition,boolean onRepair
 
     }
-    public void queryGetVolume(){
+    public void queryGetCharacteristic(){
         String model= tf_volume.getText();
         ObservableList<String> observableList=FXCollections.observableArrayList();
         ResultSet rsWagon = null;
@@ -493,7 +490,6 @@ public class MainController {
             list_view.setItems(observableList);
         }catch (Exception e){
             System.out.println(e);}
-
     }
     public void additionList(String wagon_type,ObservableList<String> observableList,ResultSet resultSet) throws Exception{
         if(wagon_type.equals("tankwagon"))
@@ -674,7 +670,7 @@ public class MainController {
             queryCityInRoute();
         });
         btn_query_volume.setOnAction(event -> {
-            queryGetVolume();
+            queryGetCharacteristic();
         });
         btn_query_carincity.setOnAction(event -> {
             queryCarInCity();

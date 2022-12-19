@@ -23,7 +23,6 @@ public class LoginController {
     private Label error_label;
     @FXML
     private PasswordField tf_pass;
-
     @FXML
     private TextField tf_user;
     public Stage stage=new Stage();

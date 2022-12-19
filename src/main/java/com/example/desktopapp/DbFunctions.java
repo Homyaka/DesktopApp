@@ -31,21 +31,6 @@ public class DbFunctions {
             return false;
         }
     }
-    public void createTable( String query){
-        Statement statement;
-        try {
-            statement=connection.createStatement();
-            statement.executeUpdate(query);
-            System.out.println("Table Created");
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    }
-     public void createAllTable(List<String> queryList){
-         for (String str:queryList) {
-             createTable(str);
-         }
-     }
      public ResultSet getQuery(String query){
          Statement statement;
          ResultSet resultSet=null;
@@ -101,6 +86,21 @@ public class DbFunctions {
         }
         return data;
     }
+    public void createTable( String query){
+        Statement statement;
+        try {
+            statement=connection.createStatement();
+            statement.executeUpdate(query);
+            System.out.println("Table Created");
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    public void createAllTable(List<String> queryList){
+        for (String str:queryList) {
+            createTable(str);
+        }
+    }
     public ArrayList<String> getAllQuery(){
         ArrayList<String> queryList=new ArrayList<String>();
         String location="create table location(id_loc SERIAL,name_loc varchar(200),primary key (id_loc))";
@@ -112,7 +112,6 @@ public class DbFunctions {
         String departure="create table departure(id_dep SERIAL,datetime_start TIMESTAMP,travel_time interval,id_route SERIAL,car_count integer, primary key(id_dep),foreign key(id_route) REFERENCES route(id_route))";
         String carriage="create table carriage(id_carr SERIAL,wagon_type varchar(200),id_model integer,full_empty boolean,material varchar(200),on_way boolean,id_pos integer,on_repair boolean," +
                 "foreign key(id_pos) REFERENCES departure(id_dep))";
-                //"foreign key(id_model) REFERENCES boxcar(id_model),foreign key(id_model) REFERENCES gondola(id_model),foreign key(id_model) REFERENCES tankwagon(id_model),foreign key(id_model) REFERENCES hopper(id_model))";
         String users="Create table users(id_user SERIAL,login varchar(255),password varchar(200),first_name varchar(200),last_name varchar(200),job_title varchar(200),rights varchar(200))";
         queryList.add(location);
         queryList.add(route);
@@ -125,6 +124,4 @@ public class DbFunctions {
         queryList.add(users);
         return queryList;
     }
-
-
 }
