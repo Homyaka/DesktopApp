@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class LoginController {
-
     public DbFunctions db= new DbFunctions("DBstock","postgres","1234");
     @FXML
     private Button btn_login;

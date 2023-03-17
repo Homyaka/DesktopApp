@@ -9,38 +9,57 @@ public class Wagons  extends Tables{
     private SimpleStringProperty modelName;
     private SimpleDoubleProperty capacity;
     private SimpleDoubleProperty volume;
+
+    public int getYearManufacture() {
+        return yearManufacture.get();
+    }
+
+    public SimpleIntegerProperty yearManufactureProperty() {
+        return yearManufacture;
+    }
+
+    public void setYearManufacture(int yearManufacture) {
+        this.yearManufacture.set(yearManufacture);
+    }
+
+    private SimpleIntegerProperty yearManufacture;
     private SimpleIntegerProperty serviceLife;
     private SimpleStringProperty special;
     private SimpleIntegerProperty loadHatches;
     private SimpleIntegerProperty unloadHatches;
-    public Wagons(String type,int idModel,String modelName,double capacity,double volume,int serviceLife){
+    public Wagons(String type, int idModel, String modelName, double capacity, double volume, int yearManufacture, int serviceLife){
         super(type);
         this.idModel=new SimpleIntegerProperty(idModel);
         this.modelName= new SimpleStringProperty(modelName);
         this.capacity=new SimpleDoubleProperty(capacity);
         this.volume=new SimpleDoubleProperty(volume);
+        this.yearManufacture =new SimpleIntegerProperty(yearManufacture);
         this.serviceLife= new SimpleIntegerProperty(serviceLife);
     }
-    public Wagons(int idModel,String modelName,double capacity,double volume,int serviseLife,String special){
+    public Wagons(int idModel, String modelName, double capacity, double volume, int yearManufacture, int serviseLife, String special){
         super("tankwagon");
         this.idModel=new SimpleIntegerProperty(idModel);
         this.modelName= new SimpleStringProperty(modelName);
         this.capacity=new SimpleDoubleProperty(capacity);
         this.volume=new SimpleDoubleProperty(volume);
+        this.yearManufacture =new SimpleIntegerProperty(yearManufacture);
         this.serviceLife= new SimpleIntegerProperty(serviseLife);
         this.special= new SimpleStringProperty(special);
     }
-    public Wagons(int idModel,String modelName,double capacity,double volume,int serviseLife,String special,int loadHatches,int unloadHatches){
+    public Wagons(int idModel, String modelName, double capacity, double volume, int yearManufacture, int serviseLife, String special, int loadHatches, int unloadHatches){
         super("hopper");
         this.idModel=new SimpleIntegerProperty(idModel);
         this.modelName= new SimpleStringProperty(modelName);
         this.capacity=new SimpleDoubleProperty(capacity);
         this.volume=new SimpleDoubleProperty(volume);
+        this.yearManufacture =new SimpleIntegerProperty(yearManufacture);
         this.serviceLife= new SimpleIntegerProperty(serviseLife);
         this.special= new SimpleStringProperty(special);
         this.loadHatches=new SimpleIntegerProperty(loadHatches);
         this.unloadHatches=new SimpleIntegerProperty(unloadHatches);
     }
+
+
     public int getIdModel() {
         return idModel.get();
     }
