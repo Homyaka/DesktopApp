@@ -3,25 +3,34 @@ package com.example.desktopapp;
 import com.example.desktopapp.classesForTables.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class MainController {
 
     DbFunctions db= new DbFunctions("DBstock","postgres","1234");
     public Stage stage=new Stage();
     public String lastId;
+    HashSet<Integer> changeList= new HashSet<>();
+
     @FXML
     private Button btn_checktables_change;
 
@@ -32,7 +41,6 @@ public class MainController {
     private ChoiceBox<String> cb_choicetables_change;
     @FXML
     private ChoiceBox<String> cb_choicetables_query;
-
     @FXML
     private ChoiceBox<String> cb_add_row;
     @FXML
@@ -41,7 +49,8 @@ public class MainController {
     private Label add_status;
     @FXML
     private Label remove_status;
-
+    @FXML
+    private Label change_status;
     @FXML
     private TextField tf_add_row;
 
@@ -91,6 +100,28 @@ public class MainController {
     private TableView<Tables> table_query;
     @FXML
     private TableView<Tables> table_change;
+
+    @FXML
+    private TableColumn<Tables, String> column1;
+    @FXML
+    private TableColumn<Tables,String> column2;
+    @FXML
+    private TableColumn<Tables, String> column3;
+    @FXML
+    private TableColumn<Tables, String> column4;
+    @FXML
+    private TableColumn<Tables, String> column5;
+    @FXML
+    private TableColumn<Tables, String> column6;
+    @FXML
+    private TableColumn<Tables, String> column7;
+    @FXML
+    private TableColumn<Tables, String> column8;
+
+    @FXML
+    private TableColumn<Tables,String> column9;
+
+
     @FXML
     private TextField tf_city;
     @FXML
@@ -105,16 +136,15 @@ public class MainController {
     private TextField tf_id_change_row;
     @FXML
     private TextField tf_route;
-
     @FXML
     private TextField tf_volume;
-
     @FXML
     private ListView<String> list_view;
     @FXML
     private Pane work_pane;
-    @FXML
-    private Label error_label;
+
+    /*@FXML
+    private Label error_label;*/
 
     public void exitFromSystem(){
         btn_exit_system.getScene().getWindow().hide();
@@ -193,38 +223,45 @@ public class MainController {
         ObservableList<Tables> boxcarList= FXCollections.observableArrayList();
         try{
             while (resultSet.next()) {
-                boxcarList.add(new Wagons("boxcar",resultSet.getInt("id_model"),resultSet.getString("model_name"),resultSet.getDouble("car_cap"),resultSet.getDouble("volume"),resultSet.getInt("year_manufacture"), resultSet.getInt("st_ser_life")));
+                boxcarList.add(new Wagons(resultSet.getString("id_model"),resultSet.getString("model_name"),resultSet.getString("car_cap"),resultSet.getString("volume"),resultSet.getString("year_manufacture"), resultSet.getString("st_ser_life")));
             }
         }catch (Exception e){
            System.out.println(e);
         }
         table.setItems(boxcarList);
-       //создание столбца id_model
-        TableColumn<Tables, Integer> columnIdModel= new TableColumn<Tables,Integer>("id_model");
-        columnIdModel.setCellValueFactory(new PropertyValueFactory<Tables,Integer>("idModel"));
-        table.getColumns().add(columnIdModel);
-       //создание столбца model_name
-        TableColumn<Tables,String> columnModelName= new TableColumn<Tables,String>("Model Name");
-       columnModelName.setCellValueFactory(new PropertyValueFactory<Tables,String>("modelName"));
-        table.getColumns().add(columnModelName);
-       // создание столбца capacity
-        TableColumn<Tables, Double> columnCapacity= new TableColumn<Tables, Double>("Capacity");
-        columnCapacity.setCellValueFactory(new PropertyValueFactory<Tables,Double>("capacity"));
-        table.getColumns().add(columnCapacity);
+        column1= new TableColumn<>("id_model");
+        column1.setCellValueFactory(new PropertyValueFactory<Tables,String>("idModel"));
+        table.getColumns().add(column1);
+        //  column1.setCellFactory(TextFieldTableCell.forTableColumn());
+        //создание столбца model_name
+        column2= new TableColumn<>("Model Name");
+        column2= new TableColumn<Tables,String>("Model Name");
+        column2.setCellValueFactory(new PropertyValueFactory<Tables,String>("modelName"));
+        table.getColumns().add(column2);
+        // column2.setCellFactory(TextFieldTableCell.forTableColumn());
+        // создание столбца capacity
+        column3= new TableColumn<>("Capacity");
+        column3.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        table.getColumns().add(column3);
+        // column3.setCellFactory(TextFieldTableCell.forTableColumn());
         // создание столбца volume
-        TableColumn<Tables, Double> columnVolume= new TableColumn<Tables, Double>("Volume");
-        columnVolume.setCellValueFactory(new PropertyValueFactory<Tables,Double>("volume"));
-        table.getColumns().add(columnVolume);
+        column4= new TableColumn<>("Volume");
+        column4.setCellValueFactory(new PropertyValueFactory<>("volume"));
+        table.getColumns().add(column4);
+        // column4.setCellFactory(TextFieldTableCell.forTableColumn());
         //
-        TableColumn<Tables,Integer> columnYearManufacture= new TableColumn<>("Year Manufactory");
-        columnYearManufacture.setCellValueFactory(new PropertyValueFactory<Tables,Integer>("yearManufacture"));
-        table.getColumns().add(columnYearManufacture);
+        column5= new TableColumn<>("Year Manufactory");
+        column5.setCellValueFactory(new PropertyValueFactory<>("yearManufacture"));
+        table.getColumns().add(column5);
+        // column5.setCellFactory(TextFieldTableCell.forTableColumn());
         //создание столбца serviceLife
-        TableColumn<Tables, Integer> colunmServiceLife= new TableColumn<Tables,Integer>("Service Life");
-        colunmServiceLife.setCellValueFactory(new PropertyValueFactory<>("serviceLife"));
-        table.getColumns().add(colunmServiceLife);
+        column6= new TableColumn<>("Service Life");
+        column6.setCellValueFactory(new PropertyValueFactory<>("serviceLife"));
+        table.getColumns().add(column6);
+        // column6.setCellFactory(TextFieldTableCell.forTableColumn());
         table.setPrefWidth(500);
         table.setPrefHeight(170);
+
     }
     public void fillTableGondola(TableView table){
         table.getItems().clear();
@@ -232,39 +269,44 @@ public class MainController {
         ObservableList<Tables> gondola= FXCollections.observableArrayList();
         try{
             while (resultSet.next()) {
-                gondola.add(new Wagons("gondola",resultSet.getInt("id_model"),resultSet.getString("model_name"),resultSet.getDouble("car_cap"),resultSet.getDouble("volume"), resultSet.getInt("year_manufacture"), resultSet.getInt("st_ser_life")));
+                gondola.add(new Wagons("gondola",resultSet.getString("id_model"),resultSet.getString("model_name"),resultSet.getString("car_cap"),resultSet.getString("volume"), resultSet.getString("year_manufacture"), resultSet.getString("st_ser_life")));
             }
         }catch (Exception e){
             System.out.println(e);
         }
         table.setItems(gondola);
-        //создание столбца id_model
-        TableColumn<Tables, Integer> columnIdModel= new TableColumn<Tables,Integer>("id_model");
-        columnIdModel.setCellValueFactory(new PropertyValueFactory<Tables,Integer>("idModel"));
-        table.getColumns().add(columnIdModel);
+        column1= new TableColumn<>("id_model");
+        column1.setCellValueFactory(new PropertyValueFactory<Tables,String>("idModel"));
+        table.getColumns().add(column1);
+      //  column1.setCellFactory(TextFieldTableCell.forTableColumn());
         //создание столбца model_name
-        TableColumn<Tables,String> columnModelName= new TableColumn<Tables,String>("Model Name");
-        columnModelName.setCellValueFactory(new PropertyValueFactory<Tables,String>("modelName"));
-        table.getColumns().add(columnModelName);
+        column2= new TableColumn<>("Model Name");
+        column2= new TableColumn<Tables,String>("Model Name");
+        column2.setCellValueFactory(new PropertyValueFactory<Tables,String>("modelName"));
+        table.getColumns().add(column2);
+       // column2.setCellFactory(TextFieldTableCell.forTableColumn());
         // создание столбца capacity
-        TableColumn<Tables, Double> columnCapacity= new TableColumn<Tables, Double>("Capacity");
-        columnCapacity.setCellValueFactory(new PropertyValueFactory<Tables,Double>("capacity"));
-        table.getColumns().add(columnCapacity);
+        column3= new TableColumn<>("Capacity");
+        column3.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        table.getColumns().add(column3);
+       // column3.setCellFactory(TextFieldTableCell.forTableColumn());
         // создание столбца volume
-        TableColumn<Tables, Double> columnVolume= new TableColumn<Tables, Double>("Volume");
-        columnVolume.setCellValueFactory(new PropertyValueFactory<Tables,Double>("volume"));
-        table.getColumns().add(columnVolume);
+        column4= new TableColumn<>("Volume");
+        column4.setCellValueFactory(new PropertyValueFactory<>("volume"));
+        table.getColumns().add(column4);
+       // column4.setCellFactory(TextFieldTableCell.forTableColumn());
         //
-        TableColumn<Tables,Integer> columnYearManufacture= new TableColumn<>("Year Manufactory");
-        columnYearManufacture.setCellValueFactory(new PropertyValueFactory<Tables,Integer>("yearManufacture"));
-        table.getColumns().add(columnYearManufacture);
+        column5= new TableColumn<>("Year Manufactory");
+        column5.setCellValueFactory(new PropertyValueFactory<>("yearManufacture"));
+        table.getColumns().add(column5);
+       // column5.setCellFactory(TextFieldTableCell.forTableColumn());
         //создание столбца serviceLife
-        TableColumn<Tables, Integer> colunmServiceLife= new TableColumn<Tables,Integer>("Service Life");
-        colunmServiceLife.setCellValueFactory(new PropertyValueFactory<>("serviceLife"));
-        table.getColumns().add(colunmServiceLife);
+        column6= new TableColumn<>("Service Life");
+        column6.setCellValueFactory(new PropertyValueFactory<>("serviceLife"));
+        table.getColumns().add(column6);
+       // column6.setCellFactory(TextFieldTableCell.forTableColumn());
         table.setPrefWidth(500);
         table.setPrefHeight(170);
-
     }
 
     public void fillTableTankWagon(TableView table){
@@ -273,40 +315,48 @@ public class MainController {
         ObservableList<Tables> tankwagon= FXCollections.observableArrayList();
         try{
             while (resultSet.next()) {
-                tankwagon.add(new Wagons(resultSet.getInt("id_model"),resultSet.getString("model_name"),resultSet.getDouble("car_cap"),resultSet.getDouble("volume"), resultSet.getInt("year_manufacture"), resultSet.getInt("st_ser_life"),resultSet.getString("model_special")));
+                tankwagon.add(new Wagons(resultSet.getString("id_model"),resultSet.getString("model_name"),resultSet.getString("car_cap"),resultSet.getString("volume"), resultSet.getString("year_manufacture"), resultSet.getString("st_ser_life"),resultSet.getString("model_special")));
             }
         }catch (Exception e){
             System.out.println(e);
         }
         table.setItems(tankwagon);
         //создание столбца id_model
-        TableColumn<Tables, Integer> columnIdModel= new TableColumn<Tables,Integer>("id_model");
-        columnIdModel.setCellValueFactory(new PropertyValueFactory<Tables,Integer>("idModel"));
-        table.getColumns().add(columnIdModel);
+        column1= new TableColumn<>("id_model");
+        column1.setCellValueFactory(new PropertyValueFactory<Tables,String>("idModel"));
+        table.getColumns().add(column1);
+        //column1.setCellFactory(TextFieldTableCell.forTableColumn());
         //создание столбца model_name
-        TableColumn<Tables,String> columnModelName= new TableColumn<Tables,String>("Model Name");
-        columnModelName.setCellValueFactory(new PropertyValueFactory<Tables,String>("modelName"));
-        table.getColumns().add(columnModelName);
+        column2= new TableColumn<>("Model Name");
+        column2= new TableColumn<Tables,String>("Model Name");
+        //column2.setCellValueFactory(new PropertyValueFactory<Tables,String>("modelName"));
+        table.getColumns().add(column2);
+       // column2.setCellFactory(TextFieldTableCell.forTableColumn());
         // создание столбца capacity
-        TableColumn<Tables, Double> columnCapacity= new TableColumn<Tables, Double>("Capacity");
-        columnCapacity.setCellValueFactory(new PropertyValueFactory<Tables,Double>("capacity"));
-        table.getColumns().add(columnCapacity);
+        column3= new TableColumn<>("Capacity");
+       // column3.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        table.getColumns().add(column3);
+       // column3.setCellFactory(TextFieldTableCell.forTableColumn());
         // создание столбца volume
-        TableColumn<Tables, Double> columnVolume= new TableColumn<Tables, Double>("Volume");
-        columnVolume.setCellValueFactory(new PropertyValueFactory<Tables,Double>("volume"));
-        table.getColumns().add(columnVolume);
+        column4= new TableColumn<>("Volume");
+        column4.setCellValueFactory(new PropertyValueFactory<>("volume"));
+        table.getColumns().add(column4);
+        //column4.setCellFactory(TextFieldTableCell.forTableColumn());
         //
-        TableColumn<Tables,Integer> columnYearManufacture= new TableColumn<>("Year Manufactory");
-        columnYearManufacture.setCellValueFactory(new PropertyValueFactory<Tables,Integer>("yearManufacture"));
-        table.getColumns().add(columnYearManufacture);
+        column5= new TableColumn<>("Year Manufactory");
+        column5.setCellValueFactory(new PropertyValueFactory<>("yearManufacture"));
+        table.getColumns().add(column5);
+        //column5.setCellFactory(TextFieldTableCell.forTableColumn());
         //создание столбца serviceLife
-        TableColumn<Tables, Integer> colunmServiceLife= new TableColumn<Tables,Integer>("Service Life");
-        colunmServiceLife.setCellValueFactory(new PropertyValueFactory<>("serviceLife"));
-        table.getColumns().add(colunmServiceLife);
+        column6= new TableColumn<>("Service Life");
+        column6.setCellValueFactory(new PropertyValueFactory<>("serviceLife"));
+        table.getColumns().add(column6);
+       // column6.setCellFactory(TextFieldTableCell.forTableColumn());
         // создание столбца model_special
-        TableColumn<Tables,String > columnModelSpecial=new TableColumn<>("Model Special");
-        columnModelSpecial.setCellValueFactory(new PropertyValueFactory<>("special"));
-        table.getColumns().add(columnModelSpecial);
+        column7=new TableColumn<>("Model Special");
+        column7.setCellValueFactory(new PropertyValueFactory<>("special"));
+        table.getColumns().add(column7);
+
         table.setPrefWidth(650);
         table.setPrefHeight(170);
     }
@@ -317,48 +367,48 @@ public class MainController {
         ObservableList<Tables> hopper= FXCollections.observableArrayList();
         try{
             while (resultSet.next()) {
-                hopper.add(new Wagons(resultSet.getInt("id_model"),resultSet.getString("model_name"),resultSet.getDouble("car_cap"),resultSet.getDouble("volume"), resultSet.getInt("year_manufacture"), resultSet.getInt("st_ser_life"),resultSet.getString("model_special"),resultSet.getInt("load_hatches"),resultSet.getInt("unload_hatches")));
+                hopper.add(new Wagons(resultSet.getString("id_model"),resultSet.getString("model_name"),resultSet.getString("car_cap"),resultSet.getString("volume"), resultSet.getString("year_manufacture"), resultSet.getString("st_ser_life"),resultSet.getString("model_special"),resultSet.getString("load_hatches"),resultSet.getString("unload_hatches")));
             }
         }catch (Exception e){
             System.out.println(e);
         }
         table.setItems(hopper);
         //создание столбца id_model
-        TableColumn<Tables, Integer> columnIdModel= new TableColumn<Tables,Integer>("id_model");
-        columnIdModel.setCellValueFactory(new PropertyValueFactory<Tables,Integer>("idModel"));
-        table.getColumns().add(columnIdModel);
+        column1= new TableColumn<>("id_model");
+        column1.setCellValueFactory(new PropertyValueFactory<>("idModel"));
+        table.getColumns().add(column1);
         //создание столбца model_name
-        TableColumn<Tables,String> columnModelName= new TableColumn<Tables,String>("Model Name");
-        columnModelName.setCellValueFactory(new PropertyValueFactory<Tables,String>("modelName"));
-        table.getColumns().add(columnModelName);
+        column2= new TableColumn<>("Model Name");
+        column2.setCellValueFactory(new PropertyValueFactory<>("modelName"));
+        table.getColumns().add(column2);
         // создание столбца capacity
-        TableColumn<Tables, Double> columnCapacity= new TableColumn<Tables, Double>("Capacity");
-        columnCapacity.setCellValueFactory(new PropertyValueFactory<Tables,Double>("capacity"));
-        table.getColumns().add(columnCapacity);
+        column3= new TableColumn<>("Capacity");
+        column3.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        table.getColumns().add(column3);
         // создание столбца volume
-        TableColumn<Tables, Double> columnVolume= new TableColumn<Tables, Double>("Volume");
-        columnVolume.setCellValueFactory(new PropertyValueFactory<Tables,Double>("volume"));
-        table.getColumns().add(columnVolume);
+         column4= new TableColumn<>("Volume");
+        column4.setCellValueFactory(new PropertyValueFactory<>("volume"));
+        table.getColumns().add(column4);
         //
-        TableColumn<Tables,Integer> columnYearManufacture= new TableColumn<>("Year Manufactory");
-        columnYearManufacture.setCellValueFactory(new PropertyValueFactory<Tables,Integer>("yearManufacture"));
-        table.getColumns().add(columnYearManufacture);
+        column5= new TableColumn<>("Year Manufacture");
+        column5.setCellValueFactory(new PropertyValueFactory<>("yearManufacture"));
+        table.getColumns().add(column5);
         // создание столбца load Hatches
-        TableColumn<Tables,Integer> columnLoadHatches= new TableColumn<>("Load Hatches");
-        columnLoadHatches.setCellValueFactory(new PropertyValueFactory<>("loadHatches"));
-        table.getColumns().add(columnLoadHatches);
+        column6= new TableColumn<>("Load Hatches");
+        column6.setCellValueFactory(new PropertyValueFactory<>("loadHatches"));
+        table.getColumns().add(column6);
         //создание столбца unload Hatches
-        TableColumn<Tables,Integer> columnUnLoadHatches= new TableColumn<>("UnLoad Hatches");
-        columnUnLoadHatches.setCellValueFactory(new PropertyValueFactory<>("unloadHatches"));
-        table.getColumns().add(columnUnLoadHatches);
+        column7= new TableColumn<>("UnLoad Hatches");
+        column7.setCellValueFactory(new PropertyValueFactory<>("unloadHatches"));
+        table.getColumns().add(column7);
         //создание столбца serviceLife
-        TableColumn<Tables, Integer> colunmServiceLife= new TableColumn<Tables,Integer>("Service Life");
-        colunmServiceLife.setCellValueFactory(new PropertyValueFactory<>("serviceLife"));
-        table.getColumns().add(colunmServiceLife);
+        column8= new TableColumn<>("Service Life");
+        column8.setCellValueFactory(new PropertyValueFactory<>("serviceLife"));
+        table.getColumns().add(column8);
         // создание столбца model_special
-        TableColumn<Tables,String > columnModelSpecial=new TableColumn<>("Model Special");
-        columnModelSpecial.setCellValueFactory(new PropertyValueFactory<>("special"));
-        table.getColumns().add(columnModelSpecial);
+        column9=new TableColumn<>("Model Special");
+        column9.setCellValueFactory(new PropertyValueFactory<>("special"));
+        table.getColumns().add(column9);
         table.setPrefWidth(800);
         table.setPrefHeight(170);
        // table_query.setPrefHeight();
@@ -371,20 +421,20 @@ public class MainController {
         try {
             while (resultSet.next())
             {
-                locations.add(new Location(resultSet.getInt("id_loc"),resultSet.getString("name_loc")));
+                locations.add(new Location(resultSet.getString("id_loc"),resultSet.getString("name_loc")));
             }
         }catch (Exception e){
             System.out.println(e);
         }
         table.setItems(locations);
         //создание столбца idLocation
-        TableColumn<Tables, Integer> columnIdLocation= new TableColumn<>("id_Location");
-        columnIdLocation.setCellValueFactory(new PropertyValueFactory<>("idLocation"));
-        table.getColumns().add(columnIdLocation);
+        column1= new TableColumn<>("id_Location");
+        column1.setCellValueFactory(new PropertyValueFactory<>("idLocation"));
+        table.getColumns().add(column1);
         //создание столбца name location
-        TableColumn<Tables,String> columnNameLocation= new TableColumn<>("Name Location");
-        columnNameLocation.setCellValueFactory(new PropertyValueFactory<>("nameLocation"));
-        table.getColumns().add(columnNameLocation);
+        column2= new TableColumn<>("Name Location");
+        column2.setCellValueFactory(new PropertyValueFactory<>("nameLocation"));
+        table.getColumns().add(column2);
         table.setPrefWidth(200);
         table.setPrefHeight(500);
     }
@@ -396,24 +446,24 @@ public class MainController {
         try {
             while (resultSet.next())
             {
-                route.add(new Route(resultSet.getInt("id_route"),resultSet.getInt("id_startloc"),resultSet.getInt("id_endloc")));
+                route.add(new Route(resultSet.getString("id_route"),resultSet.getString("id_startloc"),resultSet.getString("id_endloc")));
             }
         }catch (Exception e){
             System.out.println(e);
         }
         table.setItems(route);
         //создание столбца id Route
-        TableColumn<Tables, Integer> columnIdRoute= new TableColumn<>("id_route");
-        columnIdRoute.setCellValueFactory(new PropertyValueFactory<>("idRoute"));
-        table.getColumns().add(columnIdRoute);
+         column1= new TableColumn<>("id_route");
+        column1.setCellValueFactory(new PropertyValueFactory<>("idRoute"));
+        table.getColumns().add(column1);
         //создание столбца id startLoc
-        TableColumn<Tables, Integer> columnIdStart= new TableColumn<>("id_Start");
-        columnIdStart.setCellValueFactory(new PropertyValueFactory<>("idStartLocation"));
-        table.getColumns().add(columnIdStart);
+         column2= new TableColumn<>("id_Start");
+        column2.setCellValueFactory(new PropertyValueFactory<>("idStartLocation"));
+        table.getColumns().add(column2);
         //
-        TableColumn<Tables, Integer> columnIdEnd= new TableColumn<>("id_End");
-        columnIdEnd.setCellValueFactory(new PropertyValueFactory<>("idEndLocation"));
-        table.getColumns().add(columnIdEnd);
+        column3= new TableColumn<>("id_End");
+        column3.setCellValueFactory(new PropertyValueFactory<>("idEndLocation"));
+        table.getColumns().add(column3);
         table.setPrefWidth(200);
         table.setPrefHeight(800);
     }
@@ -425,84 +475,152 @@ public class MainController {
         try {
             while (resultSet.next())
             {
-                departure.add(new Departure(resultSet.getInt("id_dep"),resultSet.getString("datetime_start"),resultSet.getString("travel_time"),resultSet.getInt("id_route"),resultSet.getInt("car_count")));
+                departure.add(new Departure(resultSet.getString("id_dep"),resultSet.getString("datetime_start"),resultSet.getString("travel_time"),resultSet.getString("id_route"),resultSet.getString("car_count")));
             }
         }catch (Exception e){
             System.out.println(e);
         }
         table.setItems(departure);
         //создание столбца idDeparture
-        TableColumn<Tables,Integer> columnIdDeparture= new TableColumn<>("id_Departure");
-        columnIdDeparture.setCellValueFactory(new PropertyValueFactory<>("idDeparture"));
-        table.getColumns().add(columnIdDeparture);
+        column1= new TableColumn<>("id_Departure");
+        column1.setCellValueFactory(new PropertyValueFactory<>("idDeparture"));
+        table.getColumns().add(column1);
         //
-        TableColumn<Tables,String> columnDatetimeStart= new TableColumn<>("DateTime Start");
-        columnDatetimeStart.setCellValueFactory(new PropertyValueFactory<>("dateTimeStart"));
-        table.getColumns().add(columnDatetimeStart);
+        column2= new TableColumn<>("DateTime Start");
+        column2.setCellValueFactory(new PropertyValueFactory<>("dateTimeStart"));
+        table.getColumns().add(column2);
         //
-        TableColumn<Tables,String> columnTravelTime= new TableColumn<>("Travel Time");
-        columnTravelTime.setCellValueFactory(new PropertyValueFactory<>("travelTime"));
-        table.getColumns().add(columnTravelTime);
+        column3= new TableColumn<>("Travel Time");
+        column3.setCellValueFactory(new PropertyValueFactory<>("travelTime"));
+        table.getColumns().add(column3);
         //
-        TableColumn<Tables,Integer> columnIdRoute= new TableColumn<>("id_Route");
-        columnIdRoute.setCellValueFactory(new PropertyValueFactory<>("idRoute"));
-        table.getColumns().add(columnIdRoute);
+        column4= new TableColumn<>("id_Route");
+        column4.setCellValueFactory(new PropertyValueFactory<>("idRoute"));
+        table.getColumns().add(column4);
         //
-        TableColumn<Tables,Integer> columnICountCarriage= new TableColumn<>("Count Carriage");
-        columnICountCarriage.setCellValueFactory(new PropertyValueFactory<>("countCarriage"));
-        table.getColumns().add(columnICountCarriage);
+        column5= new TableColumn<>("Count Carriage");
+        column5.setCellValueFactory(new PropertyValueFactory<>("countCarriage"));
+        table.getColumns().add(column5);
+
+       // column1.setCellFactory(TextFieldTableCell.forTableColumn());
+        column2.setCellFactory(TextFieldTableCell.forTableColumn());
+        column3.setCellFactory(TextFieldTableCell.forTableColumn());
+        column4.setCellFactory(TextFieldTableCell.forTableColumn());
+        column5.setCellFactory(TextFieldTableCell.forTableColumn());
         table.setPrefWidth(460);
         table.setPrefHeight(500);
     }
-
     public void fillTableCarriage(TableView table){
         table.getItems().clear();
         ResultSet resultSet=db.readTable("carriage");
         ObservableList<Tables> carriage= FXCollections.observableArrayList();
         try {
             while (resultSet.next()){
-                carriage.add(new Carriage(resultSet.getInt("id_carr"),resultSet.getString("wagon_type"),resultSet.getInt("id_model"),resultSet.getBoolean("full_empty"),resultSet.getString("material"),resultSet.getBoolean("on_way"),resultSet.getInt("id_pos"),resultSet.getBoolean("on_repair")));
+                carriage.add(new Carriage(resultSet.getString("id_carr"),resultSet.getString("wagon_type"),resultSet.getString("id_model"),resultSet.getString("full_empty"),resultSet.getString("material"),resultSet.getString("on_way"),resultSet.getString("id_pos"),resultSet.getString("on_repair")));
             }
         }catch (Exception e){
             System.out.println(e);
         }
         table.setItems(carriage);
         // создание столбца  idCarriage
-        TableColumn<Tables,Integer> columnIdCarriage= new TableColumn<>("id_Carriage");
-        columnIdCarriage.setCellValueFactory(new PropertyValueFactory<>("idCarriage"));
-        table.getColumns().add(columnIdCarriage);
+        column1= new TableColumn<>("id_Carriage");
+        column1.setCellValueFactory(new PropertyValueFactory<>("idCarriage"));
+        table.getColumns().add(column1);
         // wagonType
-        TableColumn<Tables,String> columnWagonType= new TableColumn<>("Wagon Type");
-        columnWagonType.setCellValueFactory(new PropertyValueFactory<>("wagonType"));
-        table.getColumns().add(columnWagonType);
+        column2= new TableColumn<>("Wagon Type");
+        column2.setCellValueFactory(new PropertyValueFactory<>("wagonType"));
+        table.getColumns().add(column2);
         // idModel
-        TableColumn<Tables,Integer> columnIdModel= new TableColumn<>("id_Model");
-        columnIdModel.setCellValueFactory(new PropertyValueFactory<>("idModel"));
-        table.getColumns().add(columnIdModel);
+        column3= new TableColumn<>("id_Model");
+        column3.setCellValueFactory(new PropertyValueFactory<>("idModel"));
+        table.getColumns().add(column3);
         // fullEmpty
-        TableColumn<Tables,Boolean> columnFullEmpty = new TableColumn<>("full/empty");
-        columnFullEmpty.setCellValueFactory(new PropertyValueFactory<>("fullEmpty"));
-        table.getColumns().add(columnFullEmpty);
+        column4 = new TableColumn<>("full/empty");
+        column4.setCellValueFactory(new PropertyValueFactory<>("fullEmpty"));
+        table.getColumns().add(column4);
         //material
-        TableColumn<Tables,String> columnMaterial= new TableColumn<>("Material");
-        columnMaterial.setCellValueFactory(new PropertyValueFactory<>("material"));
-        table.getColumns().add(columnMaterial);
+        column5= new TableColumn<>("Material");
+        column5.setCellValueFactory(new PropertyValueFactory<>("material"));
+        table.getColumns().add(column5);
         //onWay
-        TableColumn<Tables,Boolean> columnOnWay = new TableColumn<>("on Way");
-        columnOnWay.setCellValueFactory(new PropertyValueFactory<>("onWay"));
-        table.getColumns().add(columnOnWay);
+        column6 = new TableColumn<>("on Way");
+        column6.setCellValueFactory(new PropertyValueFactory<>("onWay"));
+        table.getColumns().add(column6);
         //idPosition
-        TableColumn<Tables,Integer> columnIdPosition= new TableColumn<>("id_Position");
-        columnIdPosition.setCellValueFactory(new PropertyValueFactory<>("idPosition"));
-        table.getColumns().add(columnIdPosition);
+        column7= new TableColumn<>("id_Position");
+        column7.setCellValueFactory(new PropertyValueFactory<>("idPosition"));
+        table.getColumns().add(column7);
         //onRepair
-        TableColumn<Tables,Boolean> columnOnRepair = new TableColumn<>("on Repair");
-        columnOnRepair.setCellValueFactory(new PropertyValueFactory<>("onRepair"));
-        table.getColumns().add(columnOnRepair);
+        column8 = new TableColumn<>("on Repair");
+        column8.setCellValueFactory(new PropertyValueFactory<>("onRepair"));
+        table.getColumns().add(column8);
         table.setPrefWidth(700);
         table.setPrefHeight(700);
+        column2.setCellFactory(TextFieldTableCell.forTableColumn());
+        column3.setCellFactory(TextFieldTableCell.forTableColumn());
+        column4.setCellFactory(TextFieldTableCell.forTableColumn());
+        column5.setCellFactory(TextFieldTableCell.forTableColumn());
+        column6.setCellFactory(TextFieldTableCell.forTableColumn());
+        column7.setCellFactory(TextFieldTableCell.forTableColumn());
+        column8.setCellFactory(TextFieldTableCell.forTableColumn());
+       // System.out.println(tableRow);
+        column2.setOnEditCommit(event -> {
+            if (!event.getOldValue().equals(event.getNewValue())){
+               changeList.add(event.getTablePosition().getRow());
+                Carriage tableRow= (Carriage) event.getRowValue();
+                tableRow.setWagonType(event.getNewValue());
+            }
+            System.out.println(changeList);
+        });
+        column3.setOnEditCommit(event -> {
+            if (!event.getOldValue().equals(event.getNewValue())){
+                changeList.add(event.getTablePosition().getRow());
+                Carriage tableRow= (Carriage) event.getRowValue();
+                tableRow.setIdModel(event.getNewValue());
+            }
+            System.out.println(changeList);
+        });
+        column4.setOnEditCommit(event -> {
+            if (!event.getOldValue().equals(event.getNewValue())){
+                changeList.add(event.getTablePosition().getRow());
+                Carriage tableRow= (Carriage) event.getRowValue();
+                tableRow.setFullEmpty(event.getNewValue());
+            }
+            System.out.println(changeList);
+        });
+        column5.setOnEditCommit(event -> {
+            if (!event.getOldValue().equals(event.getNewValue())){
+                changeList.add(event.getTablePosition().getRow());
+                Carriage tableRow= (Carriage) event.getRowValue();
+                tableRow.setMaterial(event.getNewValue());
+            }
+            System.out.println(changeList);
+        });
+        column6.setOnEditCommit(event -> {
+            if (!event.getOldValue().equals(event.getNewValue())){
+                changeList.add(event.getTablePosition().getRow());
+                Carriage tableRow= (Carriage) event.getRowValue();
+                tableRow.setOnWay(event.getNewValue());
+            }
+            System.out.println(changeList);
+        });
+        column7.setOnEditCommit(event -> {
+            if (!event.getOldValue().equals(event.getNewValue())){
+                changeList.add(event.getTablePosition().getRow());
+                Carriage tableRow= (Carriage) event.getRowValue();
+                tableRow.setIdPosition(event.getNewValue());
+            }
+            System.out.println(changeList);
+        });
+        column8.setOnEditCommit(event -> {
+            if (!event.getOldValue().equals(event.getNewValue())){
+                changeList.add(event.getTablePosition().getRow());
+                Carriage tableRow= (Carriage) event.getRowValue();
+                tableRow.setOnRepair(event.getNewValue());
+            }
+            System.out.println(changeList);
+        });
         //int idCarriage,String wagonType,int idModel,boolean fullEmpty,String material,boolean onWay,int idPosition,boolean onRepair
-
     }
     public void queryGetCharacteristic(){
         String model= tf_volume.getText();
@@ -852,7 +970,7 @@ public class MainController {
         }
         return String.valueOf(resultLine);
     }
-    public void confirmChange(){
+   /* public void confirmChange(){
         if(tf_change_row.getText().isEmpty()){
             label_error.setText("Пустая строка");
             return;
@@ -904,9 +1022,42 @@ public class MainController {
                 label_error.setText("Не удалось изменить строку, проверьте введеные данные");
             System.out.println(delQuery);
             System.out.println(query);
+        }*/
+    public void confirmChange(){
+        String table=cb_choicetables_change.getValue();
+        Iterator<Integer> i=changeList.iterator();
+        boolean flag=false;
+        String flagEF;
+        String flagOnWay;
+        String flafRepair;
+        switch (table){
+            case ("Отдельные вагоны"):{
+               for (int cl:changeList){
+                   System.out.println(cl);
+                   Carriage car=(Carriage) table_change.getItems().get(cl);
+                   if (car.getFullEmpty().equals("t")) flagEF="true";
+                   else flagEF="false";
+                   if (car.getOnWay().equals("t")) flagOnWay="true";
+                   else flagOnWay="false";
+                   if (car.getOnRepair().equals("t")) flafRepair="true";
+                   else flafRepair="false";
+                   String query="update carriage set wagon_type= \'"+car.getWagonType()+ "\' , id_model= "+car.getIdModel()+" ,full_empty="+flagEF+
+                           ", material=\'"+car.getMaterial()+"\',on_way= "+flagOnWay+",id_pos= "+car.getIdPosition() +", on_repair="+ flafRepair+" where id_carr="+ car.getIdCarriage();
+                   //update carriage set wagon_type='boxcar',id_model=3,full_empty=true,material='test',on_way=true,id_pos=24,on_repair=false where id_carr=1
+                   flag=db.setQuery(query);
+                   if (flag) change_status.setText("Успешно изменено");
+                   else change_status.setText("Не удалось");
+                   System.out.println(query);
+               }
+                }
+            }
         }
     @FXML
     void initialize() {
+        System.out.println(changeList);
+        table_change.isEditable();
+        table_change.setEditable(true);
+        //table_change.setOnMouseClicked(mouseEvent -> {table_change.setEditable(true);});
         addTablesInChoiceBox();
         btn_show_line.setOnAction(event -> {
             try {

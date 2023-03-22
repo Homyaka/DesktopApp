@@ -5,36 +5,38 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Carriage extends Tables{
-    private SimpleIntegerProperty idCarriage;
+    private SimpleStringProperty idCarriage;
     private SimpleStringProperty wagonType;
-    private SimpleIntegerProperty idModel;
-    private SimpleBooleanProperty fullEmpty;
+    private SimpleStringProperty idModel;
+    private SimpleStringProperty fullEmpty;
     private SimpleStringProperty material;
-    private SimpleBooleanProperty onWay;
-    private SimpleIntegerProperty idPosition;
-    private SimpleBooleanProperty onRepair;
+    private SimpleStringProperty onWay;
+    private SimpleStringProperty idPosition;
+    private SimpleStringProperty onRepair;
 
-    public Carriage(int idCarriage,String wagonType,int idModel,boolean fullEmpty,String material,boolean onWay,int idPosition,boolean onRepair){
-        super("Carriage");
-        this.idCarriage= new SimpleIntegerProperty(idCarriage);
-        this.wagonType= new SimpleStringProperty(wagonType);
-        this.idModel=new SimpleIntegerProperty(idModel);
-        this.fullEmpty= new SimpleBooleanProperty(fullEmpty);
-        this.material= new SimpleStringProperty(material);
-        this.onWay= new SimpleBooleanProperty(onWay);
-        this.idPosition= new SimpleIntegerProperty(idPosition);
-        this.onRepair= new SimpleBooleanProperty(onRepair);
+    public Carriage() {
     }
 
-    public int getIdCarriage() {
+    public Carriage(String idCarriage, String wagonType, String idModel, String fullEmpty, String material, String onWay, String idPosition, String onRepair){
+        this.idCarriage= new SimpleStringProperty(idCarriage);
+        this.wagonType= new SimpleStringProperty(wagonType);
+        this.idModel=new SimpleStringProperty(idModel);
+        this.fullEmpty= new SimpleStringProperty(fullEmpty);
+        this.material= new SimpleStringProperty(material);
+        this.onWay= new SimpleStringProperty(onWay);
+        this.idPosition= new SimpleStringProperty(idPosition);
+        this.onRepair= new SimpleStringProperty(onRepair);
+    }
+
+    public String getIdCarriage() {
         return idCarriage.get();
     }
 
-    public SimpleIntegerProperty idCarriageProperty() {
+    public SimpleStringProperty idCarriageProperty() {
         return idCarriage;
     }
 
-    public void setIdCarriage(int idCarriage) {
+    public void setIdCarriage(String idCarriage) {
         this.idCarriage.set(idCarriage);
     }
 
@@ -50,27 +52,27 @@ public class Carriage extends Tables{
         this.wagonType.set(wagonType);
     }
 
-    public int getIdModel() {
+    public String getIdModel() {
         return idModel.get();
     }
 
-    public SimpleIntegerProperty idModelProperty() {
+    public SimpleStringProperty idModelProperty() {
         return idModel;
     }
 
-    public void setIdModel(int idModel) {
+    public void setIdModel(String idModel) {
         this.idModel.set(idModel);
     }
 
-    public boolean isFullEmpty() {
+    public String getFullEmpty() {
         return fullEmpty.get();
     }
 
-    public SimpleBooleanProperty fullEmptyProperty() {
+    public SimpleStringProperty fullEmptyProperty() {
         return fullEmpty;
     }
 
-    public void setFullEmpty(boolean fullEmpty) {
+    public void setFullEmpty(String fullEmpty) {
         this.fullEmpty.set(fullEmpty);
     }
 
@@ -86,39 +88,39 @@ public class Carriage extends Tables{
         this.material.set(material);
     }
 
-    public boolean isOnWay() {
+    public String getOnWay() {
         return onWay.get();
     }
 
-    public SimpleBooleanProperty onWayProperty() {
+    public SimpleStringProperty onWayProperty() {
         return onWay;
     }
 
-    public void setOnWay(boolean onWay) {
+    public void setOnWay(String onWay) {
         this.onWay.set(onWay);
     }
 
-    public int getIdPosition() {
+    public String getIdPosition() {
         return idPosition.get();
     }
 
-    public SimpleIntegerProperty idPositionProperty() {
+    public SimpleStringProperty idPositionProperty() {
         return idPosition;
     }
 
-    public void setIdPosition(int idPosition) {
+    public void setIdPosition(String idPosition) {
         this.idPosition.set(idPosition);
     }
 
-    public boolean isOnRepair() {
+    public String getOnRepair() {
         return onRepair.get();
     }
 
-    public SimpleBooleanProperty onRepairProperty() {
+    public SimpleStringProperty onRepairProperty() {
         return onRepair;
     }
 
-    public void setOnRepair(boolean onRepair) {
+    public void setOnRepair(String onRepair) {
         this.onRepair.set(onRepair);
     }
 }

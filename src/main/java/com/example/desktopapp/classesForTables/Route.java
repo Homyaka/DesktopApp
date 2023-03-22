@@ -1,52 +1,52 @@
 package com.example.desktopapp.classesForTables;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class Route extends Tables {
-    private SimpleIntegerProperty idRoute;
-    private SimpleIntegerProperty idStartLocation;
-    private SimpleIntegerProperty idEndLocation;
+    private SimpleStringProperty idRoute;
+    private SimpleStringProperty idStartLocation;
+    private SimpleStringProperty idEndLocation;
 
-    public Route(int idRoute,int idStartLocation,int idEndLocation){
-        super("route");
-        this.idRoute= new SimpleIntegerProperty(idRoute);
-        this.idStartLocation= new SimpleIntegerProperty(idStartLocation);
-        this.idEndLocation= new SimpleIntegerProperty(idEndLocation);
+    public Route(String idRoute,String idStartLocation,String idEndLocation){
+        this.idRoute= new SimpleStringProperty(idRoute);
+        this.idStartLocation= new SimpleStringProperty(idStartLocation);
+        this.idEndLocation= new SimpleStringProperty(idEndLocation);
     }
 
-    public int getIdRoute() {
+    public String getIdRoute() {
         return idRoute.get();
     }
 
-    public SimpleIntegerProperty idRouteProperty() {
+    public SimpleStringProperty idRouteProperty() {
         return idRoute;
     }
 
-    public void setIdRoute(int idRoute) {
+    public void setIdRoute(String idRoute) {
         this.idRoute.set(idRoute);
     }
 
-    public int getIdStartLocation() {
+    public String getIdStartLocation() {
         return idStartLocation.get();
     }
 
-    public SimpleIntegerProperty idStartLocationProperty() {
+    public SimpleStringProperty idStartLocationProperty() {
         return idStartLocation;
     }
 
-    public void setIdStartLocation(int idStartLocation) {
+    public void setIdStartLocation(String idStartLocation) {
         this.idStartLocation.set(idStartLocation);
     }
 
-    public int getIdEndLocation() {
+    public String getIdEndLocation() {
         return idEndLocation.get();
     }
 
-    public SimpleIntegerProperty idEndLocationProperty() {
+    public SimpleStringProperty idEndLocationProperty() {
         return idEndLocation;
     }
 
-    public void setIdEndLocation(int idEndLocation) {
+    public void setIdEndLocation(String idEndLocation) {
         this.idEndLocation.set(idEndLocation);
     }
 }

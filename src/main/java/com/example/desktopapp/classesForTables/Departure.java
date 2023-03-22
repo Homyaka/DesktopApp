@@ -4,30 +4,29 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Departure extends Tables{
-    private SimpleIntegerProperty idDeparture;
+    private SimpleStringProperty idDeparture;
     private SimpleStringProperty dateTimeStart;
     private SimpleStringProperty travelTime;
-    private SimpleIntegerProperty idRoute;
-    private SimpleIntegerProperty countCarriage;
+    private SimpleStringProperty idRoute;
+    private SimpleStringProperty countCarriage;
 
-    public Departure(int idDeparture,String dateTimeStart,String travelTime,int idRoute,int countCarriage){
-        super("departure");
-        this.idDeparture=new SimpleIntegerProperty(idDeparture);
+    public Departure(String idDeparture,String dateTimeStart,String travelTime,String idRoute,String countCarriage){
+        this.idDeparture=new SimpleStringProperty(idDeparture);
         this.dateTimeStart= new SimpleStringProperty(dateTimeStart);
         this.travelTime= new SimpleStringProperty(travelTime);
-        this.idRoute=new SimpleIntegerProperty(idRoute);
-        this.countCarriage= new SimpleIntegerProperty(countCarriage);
+        this.idRoute=new SimpleStringProperty(idRoute);
+        this.countCarriage= new SimpleStringProperty(countCarriage);
     }
 
-    public int getIdDeparture() {
+    public String getIdDeparture() {
         return idDeparture.get();
     }
 
-    public SimpleIntegerProperty idDepartureProperty() {
+    public SimpleStringProperty idDepartureProperty() {
         return idDeparture;
     }
 
-    public void setIdDeparture(int idDeparture) {
+    public void setIdDeparture(String idDeparture) {
         this.idDeparture.set(idDeparture);
     }
 
@@ -55,27 +54,27 @@ public class Departure extends Tables{
         this.travelTime.set(travelTime);
     }
 
-    public int getIdRoute() {
+    public String getIdRoute() {
         return idRoute.get();
     }
 
-    public SimpleIntegerProperty idRouteProperty() {
+    public SimpleStringProperty idRouteProperty() {
         return idRoute;
     }
 
-    public void setIdRoute(int idRoute) {
+    public void setIdRoute(String idRoute) {
         this.idRoute.set(idRoute);
     }
 
-    public int getCountCarriage() {
+    public String getCountCarriage() {
         return countCarriage.get();
     }
 
-    public SimpleIntegerProperty countCarriageProperty() {
+    public SimpleStringProperty countCarriageProperty() {
         return countCarriage;
     }
 
-    public void setCountCarriage(int countCarriage) {
+    public void setCountCarriage(String countCarriage) {
         this.countCarriage.set(countCarriage);
     }
 }

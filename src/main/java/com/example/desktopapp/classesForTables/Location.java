@@ -4,24 +4,23 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Location extends Tables {
-    private SimpleIntegerProperty idLocation;
+    private SimpleStringProperty idLocation;
     private SimpleStringProperty nameLocation;
 
-    public Location(int idLocation,String nameLocation){
-        super("location");
-        this.idLocation=new SimpleIntegerProperty(idLocation);
+    public Location(String idLocation,String nameLocation){
+        this.idLocation=new SimpleStringProperty(idLocation);
         this.nameLocation=new SimpleStringProperty(nameLocation);
     }
 
-    public int getIdLocation() {
+    public String getIdLocation() {
         return idLocation.get();
     }
 
-    public SimpleIntegerProperty idLocationProperty() {
+    public SimpleStringProperty idLocationProperty() {
         return idLocation;
     }
 
-    public void setIdLocation(int idLocation) {
+    public void setIdLocation(String idLocation) {
         this.idLocation.set(idLocation);
     }
 
